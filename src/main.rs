@@ -1,35 +1,39 @@
 use std::io;
-use rand::Rng;
 use std::cmp::Ordering;
+use rand::Rng;
 
 fn main() {
-    let secret = rand::thread_rng().gen_range(1..=100);
-    let mut text = String::from("Guess the number!");
+    let secret: u8 = rand::thread_rng().gen_range(1..=100);
+
+    let text = String::from("Let's start our guessing game!");
     println!("{}",text);
-    text = String::from("Please input your guess.");
-    println!("{}",text);
+
     loop {
+        let text = String::from("Give me your guess: ");
+        println!("{}",text);
+
         let mut guess = String::new();
+        io::stdin().read_line(&mut guess).expect("Error to read line");
 
-        io::stdin()
-            .read_line(&mut guess)
-            .expect("Error to read line");
-
-        let guess:u32 = match guess.trim().parse() {
+        let guess: u8 = match guess.trim().parse() {
             Ok(num) => num,
             Err(_) => continue,
         };
 
-        text = String::from("Your guess is");
-        println!("{}: {}",text,guess);
-
         match guess.cmp(&secret) {
-            Ordering::Less => println!("Too small!"),
-            Ordering::Greater => println!("Too big!"),
+            Ordering::Less => {
+                let text = String::from("Too less.");
+                println!("{}",text);
+            },
             Ordering::Equal => {
-                println!("You win!");
+                let text = String::from("You win!");
+                println!("{}",text);
                 break;
-            }
+            },
+            Ordering::Greater => {
+                let text = String::from("Too greater.");
+                println!("{}",text);
+            },
         }
-    }
+    } 
 }
