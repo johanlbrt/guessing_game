@@ -4,7 +4,6 @@ use std::cmp::Ordering;
 
 fn main() {
     let secret = rand::thread_rng().gen_range(1..=100);
-    println!("{}",secret);
     let mut text = String::from("Guess the number!");
     println!("{}",text);
     text = String::from("Please input your guess.");
